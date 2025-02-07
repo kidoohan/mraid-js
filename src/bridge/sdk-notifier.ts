@@ -21,7 +21,7 @@ export class SdkNotifier implements Bridge {
       bridge.log(logLevel, message);
     });
     this.executeNativeCall(
-      `mraid://log?logLevel=${logLevel}&message=${message}`,
+      `mraid://log?logLevel=${encodeURIComponent(logLevel)}&message=${encodeURIComponent(message)}`,
     );
   }
 
@@ -29,7 +29,7 @@ export class SdkNotifier implements Bridge {
     this.callApi((bridge) => {
       bridge.open(uri);
     });
-    this.executeNativeCall(`mraid://open?uri=${uri}`);
+    this.executeNativeCall(`mraid://open?uri=${encodeURIComponent(uri)}`);
   }
 
   close(): void {
@@ -44,7 +44,7 @@ export class SdkNotifier implements Bridge {
       bridge.useCustomClose(useCustomClose);
     });
     this.executeNativeCall(
-      `mraid://useCustomClose?useCustomClose=${useCustomClose}`,
+      `mraid://useCustomClose?useCustomClose=${encodeURIComponent(useCustomClose)}`,
     );
   }
 
@@ -74,7 +74,7 @@ export class SdkNotifier implements Bridge {
       );
     });
     this.executeNativeCall(
-      `mraid://resize?width=${width}&height=${height}&offsetX=${offsetX}&offsetY=${offsetY}&customClosePosition=${customClosePosition}&allowOffscreen=${allowOffscreen}`,
+      `mraid://resize?width=${encodeURIComponent(width)}&height=${encodeURIComponent(height)}&offsetX=${encodeURIComponent(offsetX)}&offsetY=${encodeURIComponent(offsetY)}&customClosePosition=${encodeURIComponent(customClosePosition)}&allowOffscreen=${encodeURIComponent(allowOffscreen)}`,
     );
   }
 
@@ -88,9 +88,9 @@ export class SdkNotifier implements Bridge {
     this.callApi((bridge) => {
       bridge.expand(width, height, useCustomClose, isModal, url);
     });
-    let nativeCall = `mraid://expand?width=${width}&height=${height}&useCustomClose=${useCustomClose}&isModal=${isModal}`;
+    let nativeCall = `mraid://expand?width=${encodeURIComponent(width)}&height=${encodeURIComponent(height)}&useCustomClose=${encodeURIComponent(useCustomClose)}&isModal=${encodeURIComponent(isModal)}`;
     if (url) {
-      nativeCall += `&url=${url}`;
+      nativeCall += `&url=${encodeURIComponent(url)}`;
     }
 
     this.executeNativeCall(nativeCall);
@@ -104,7 +104,7 @@ export class SdkNotifier implements Bridge {
       bridge.setOrientationProperties(allowOrientationChange, forceOrientation);
     });
     this.executeNativeCall(
-      `mraid://setOrientationProperties?allowOrientationChange=${allowOrientationChange}&forceOrientation=${forceOrientation}`,
+      `mraid://setOrientationProperties?allowOrientationChange=${encodeURIComponent(allowOrientationChange)}&forceOrientation=${encodeURIComponent(forceOrientation)}`,
     );
   }
 
@@ -112,14 +112,16 @@ export class SdkNotifier implements Bridge {
     this.callApi((bridge) => {
       bridge.playVideo(uri);
     });
-    this.executeNativeCall(`mraid://playVideo?uri=${uri}`);
+    this.executeNativeCall(`mraid://playVideo?uri=${encodeURIComponent(uri)}`);
   }
 
   storePicture(uri: string): void {
     this.callApi((bridge) => {
       bridge.storePicture(uri);
     });
-    this.executeNativeCall(`mraid://storePicture?uri=${uri}`);
+    this.executeNativeCall(
+      `mraid://storePicture?uri=${encodeURIComponent(uri)}`,
+    );
   }
 
   // endregion
